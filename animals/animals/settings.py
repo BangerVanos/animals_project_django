@@ -113,7 +113,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC+3'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 
