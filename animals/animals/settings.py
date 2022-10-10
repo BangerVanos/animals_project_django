@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'allauth',
     'accounts',
+    'animal_desc',
 ]
 
 MIDDLEWARE = [

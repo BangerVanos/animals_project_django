@@ -48,3 +48,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    avatar = models.ImageField(blank=True, null=True)
+    biography = models.TextField(blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user}'s profile"
+
