@@ -25,21 +25,27 @@ class AnimalType(models.Model):
 
 
 class Animal(models.Model):
-    avatar = models.ImageField(blank=True, null=True)
-    type = models.OneToOneField(AnimalType, on_delete=models.SET_NULL, null=True)
+    type = models.ForeignKey(AnimalType, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=50)
+    avatar = models.ImageField(blank=True, null=True, upload_to=f'animals/')
     age = models.SmallIntegerField()
-    slug = models.SlugField(unique=True, null=True)
+    slug = models.SlugField(unique=True, null=True, blank=True, default="")
 
     def __str__(self):
         return f"{self.name} the {self.type}"
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(f"{self.id}-{self.name}-the-{self.type}")
+        self.slug = slugify(f"{self.name}-the-{self.type}")
         super(Animal, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         pass
+
+    def get_avatar_url(self):
+        if not self.avatar:
+            return "front-end/static/animals/none_avatar.png/"
+        else:
+            return self.avatar.url
 
 
 class AnimalProfile(models.Model):
@@ -48,7 +54,7 @@ class AnimalProfile(models.Model):
         ('Female', 'Female'),
         ('None', 'None')
     }
-    animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
+    animal = models.OneToOneField(Animal, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=100, blank=True, null=True, choices=GENDERS, default='None')
     breed = models.CharField(max_length=255, blank=True, null=True, default='Undefined')
