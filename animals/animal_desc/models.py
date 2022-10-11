@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
+from datetime import datetime
+from django.utils import timezone
 
 # Create your models here.
 
@@ -30,12 +32,13 @@ class Animal(models.Model):
     avatar = models.ImageField(blank=True, null=True, upload_to=f'animals/')
     age = models.SmallIntegerField()
     slug = models.SlugField(unique=True, null=True, blank=True, default="")
+    create_date = models.DateField(default=timezone.now)
 
     def __str__(self):
         return f"{self.name} the {self.type}"
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(f"{self.name}-the-{self.type}")
+        self.slug = slugify(f"{self.name}-the-{self.type}-{int(datetime.timestamp(datetime.now()))}")
         super(Animal, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
