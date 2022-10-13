@@ -53,7 +53,7 @@ class Animal(models.Model):
         if self.avatar and hasattr(self.avatar, 'url'):
             return self.avatar.url
         else:
-            return os.path.join(settings.STATIC_URL, "animals/none_avatar.png")
+            return os.path.join(settings.STATIC_URL, "static/animals/img.png")
 
 
 class AnimalProfile(models.Model):
