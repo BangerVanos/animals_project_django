@@ -2,6 +2,31 @@
 
 {% block content %}
 
+<div class="container">
+<div class="row">
 
+{% for animal in animals %}
+<div class="col-md-4">
+<div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="{{animal.get_avatar_url}}" style="height: 225px; width: 225px" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{animal.name}}</h5>
+    <p class="card-text"></p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">{{animal.type}}</li>
+    <li class="list-group-item">{{animal.age}}</li>
+    <li class="list-group-item">{{animal.profile.small_desc}}</li>
+  </ul>
+  <div class="card-body">
+    <a href="{{animal.get_absolute_url}}" class="card-link">See</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+</div>
+{% endfor %}
+
+</div>
+</div>
 
 {% endblock %}

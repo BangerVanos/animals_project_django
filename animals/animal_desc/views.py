@@ -7,6 +7,12 @@ from . import models
 
 class AnimalsView(TemplateView):
     def get(self, request, *args, **kwargs):
-        animals = models.Animal.objects.all()
+        animals = models.Animal.objects.filter(is_active=True)
         return render(request, "animals/animals.html", {'animals': animals})
+
+
+class AnimalView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        animal = models.Animal.objects.get(id=kwargs['anim_id'])
+        return render(request, "animals/animal_desc.html", {'animal': animal})
 

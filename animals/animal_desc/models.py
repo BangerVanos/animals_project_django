@@ -1,7 +1,10 @@
+import os
 from django.db import models
 from django.utils.text import slugify
 from datetime import datetime
 from django.utils import timezone
+from django.urls import reverse
+from django.conf import settings
 
 # Create your models here.
 
@@ -33,6 +36,7 @@ class Animal(models.Model):
     age = models.SmallIntegerField()
     slug = models.SlugField(unique=True, null=True, blank=True, default="")
     create_date = models.DateField(default=timezone.now)
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name} the {self.type}"
@@ -42,13 +46,14 @@ class Animal(models.Model):
         super(Animal, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        pass
+        return reverse("animals:animal_desc", kwargs={"slug": self.slug, "anim_id": self.id})
 
+    @property
     def get_avatar_url(self):
-        if not self.avatar:
-            return "front-end/static/animals/none_avatar.png/"
-        else:
+        if self.avatar and hasattr(self.avatar, 'url'):
             return self.avatar.url
+        else:
+            return os.path.join(settings.STATIC_URL, "animals/none_avatar.png")
 
 
 class AnimalProfile(models.Model):
@@ -57,7 +62,8 @@ class AnimalProfile(models.Model):
         ('Female', 'Female'),
         ('None', 'None')
     }
-    animal = models.OneToOneField(Animal, on_delete=models.CASCADE)
+    animal = models.OneToOneField(Animal, on_delete=models.CASCADE, primary_key=True)
+    small_desc = models.CharField(max_length=150, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=100, blank=True, null=True, choices=GENDERS, default='None')
     breed = models.CharField(max_length=255, blank=True, null=True, default='Undefined')
