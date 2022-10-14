@@ -33,7 +33,7 @@ class Animal(models.Model):
     type = models.ForeignKey(AnimalType, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=50)
     avatar = models.ImageField(blank=True, null=True, upload_to=f'animals/')
-    age = models.SmallIntegerField()
+    age = models.SmallIntegerField(blank=True, null=True)
     slug = models.SlugField(unique=True, null=True, blank=True, default="")
     create_date = models.DateField(default=timezone.now)
     is_active = models.BooleanField(default=False)
