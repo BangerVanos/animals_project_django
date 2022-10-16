@@ -5,6 +5,8 @@ from datetime import datetime
 from django.utils import timezone
 from django.urls import reverse
 from django.conf import settings
+from accounts.models import CustomUser
+
 
 # Create your models here.
 
@@ -30,12 +32,13 @@ class AnimalType(models.Model):
 
 
 class Animal(models.Model):
-    type = models.ForeignKey(AnimalType, on_delete=models.SET_NULL, null=True)
-    name = models.CharField(max_length=50)
+    type = models.ForeignKey(AnimalType, on_delete=models.SET_NULL, null=True, default=None)
+    name = models.CharField(max_length=50, blank=True, null=True)
     avatar = models.ImageField(blank=True, null=True, upload_to=f'animals/')
     age = models.SmallIntegerField(blank=True, null=True)
     slug = models.SlugField(null=True, blank=True, default="")
     create_date = models.DateField(default=timezone.now)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     is_active = models.BooleanField(default=False)
 
     def __str__(self):
@@ -53,7 +56,7 @@ class Animal(models.Model):
         if self.avatar and hasattr(self.avatar, 'url'):
             return self.avatar.url
         else:
-            return os.path.join(settings.STATIC_URL, "static/animals/img.png")
+            return os.path.join(settings.STATIC_URL, 'animals/none_avatar.png/')
 
     def get_profile(self):
         profile = AnimalProfile.objects.get(animal=self)
@@ -74,7 +77,7 @@ class AnimalProfile(models.Model):
     where_to_get = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.animal.name}'s profile"
+        return f"{self.animal.slug}-{self.animal.id}'s profile"
 
 
 class AnimalPhoto(models.Model):
@@ -84,5 +87,7 @@ class AnimalPhoto(models.Model):
     def __str__(self):
         return f"{self.animal.slug}-{self.animal.id} photo"
 
+    @property
     def get_image_url(self):
-        return self.photo.url
+        if self.photo and hasattr(self.photo, 'url'):
+            return self.photo.url

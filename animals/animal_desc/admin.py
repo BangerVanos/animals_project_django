@@ -6,3 +6,4 @@ from . import models
 admin.site.register(models.AnimalType)
 admin.site.register(models.Animal)
 admin.site.register(models.AnimalProfile)
+admin.site.register(models.AnimalPhoto)

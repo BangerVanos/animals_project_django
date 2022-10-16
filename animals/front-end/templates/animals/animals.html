@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container-fluid d-flex justify-content-center">
-  <h1 style="">Animals we got</h1>
+  <span class="" style="font-size: 64px;">Animals we got (๑ↀᆺↀ๑)</span>
 </div>
 
 <div class="container-fluid d-flex justify-content-center">
@@ -10,9 +10,9 @@
 
 {% for animal in animals %}
 <div class="col">
-<div class="card" style="width: 18rem;">
-  <div class="container-fluid d-flex justify-content center align-items-center">
-  <img class="card-img-top" src="{{animal.get_avatar_url}}" style="height: 225px; width: 225px" alt="{{animal.name}} the {{animal.type}}">
+<div class="card bg-gradient bg-light" style="width: 18rem;">
+  <div class="container d-flex justify-content-center">
+  <img class="card-img-top" src="{{animal.get_avatar_url}}" style="height: 100%; width: 100%; object-fit: cover" alt="{{animal.name}} the {{animal.type}}">
   </div>
   <div class="card-body d-flex justify-content-center">
     <h5 class="card-title">{{animal.name}}</h5>
@@ -23,9 +23,8 @@
     <li class="list-group-item">{{animal.age}} y.o</li>
     <li class="list-group-item">{{animal.get_profile.small_desc}}</li>
   </ul>
-  <div class="card-body">
-    <a href="{{animal.get_absolute_url}}" class="card-link">See</a>
-    <a href="#" class="card-link">Another link</a>
+  <div class="card-body d-flex justify-content-center">
+    <a href="{{animal.get_absolute_url}}" class="btn btn-lg btn-outline-success" style="font-size: x-large" role="button">See!</a>
   </div>
 </div>
 </div>

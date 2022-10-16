@@ -2,6 +2,75 @@
 
 {% block content %}
 
+<div class="container-fluid d-flex justify-content-center" style="margin-top: 5%">
 
+<div class="card bg-gradient bg-success">
+
+  <div class="card-header text-center"><h1>{{animal.name}}</h1></div>
+  <div class="card-body">
+
+    <div id="demo" class="carousel slide" data-ride="carousel">
+
+  <!-- Indicators -->
+  <ul class="carousel-indicators">
+    <li data-target="#demo" data-slide-to="0" class="active"></li>
+    <li data-target="#demo" data-slide-to="1"></li>
+    <li data-target="#demo" data-slide-to="2"></li>
+  </ul>
+
+  <!-- The slideshow -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{{animal.get_avatar_url}}" style="object-fit: cover; width: 512px; height: 512px">
+    </div>
+    {% for photo in animal_photos %}
+    <div class="carousel-item">
+      <img src="{{photo.get_image_url}}" style="object-fit: cover; width: 512px; height: 512px">
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+
+</div>
+
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>Who is that?</th>
+        <th>{{animal.type}}</th>
+      </tr>
+      <tr>
+        <th>Age</th>
+        <th>{{animal.age}}</th>
+      </tr>
+      <tr>
+        <th>Gender</th>
+        <th>{{animal_profile.gender}}</th>
+      </tr>
+      <tr>
+        <th>Breed</th>
+        <th>{{animal_profile.breed}}</th>
+      </tr>
+      <tr>
+        <th>Address</th>
+        <th>{{animal_profile.where_to_get}}</th>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>{{animal_profile.description}}</p>
+
+  </div>
+
+</div>
+
+</div>
 
 {% endblock %}

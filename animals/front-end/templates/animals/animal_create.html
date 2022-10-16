@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if animal_form.errors %}
+   <div class="alert alert-danger alert-dismissible">
+     <button type="button" class="close" data-dismiss="alert">×</button>
+     <strong>Error!</strong> {{ animal_form.errors }}.
+   </div>
+{% endif %}
+
+{% if animal_profile_form.errors %}
+   <div class="alert alert-danger alert-dismissible">
+     <button type="button" class="close" data-dismiss="alert">×</button>
+     <strong>Error!</strong> {{ animal_profile_form.errors }}.
+   </div>
+{% endif %}
+
+<div class="container-fluid d-flex justify-content-center">
+    <div class="card">
+        <form method="POST" action="{% url 'animals:create' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="type">Animal type:</label>
+                <select class="form-control" id="type" name="type" required>
+                    {% for type in types %}
+                    <option>{{type.type}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="name">Animal's name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter animals's name" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Animal's age:</label>
+                <input type="number" id="age" name="age" min="0">
+            </div>
+            <div class="form-group">
+                <label for="small_desc">Small description:</label>
+                <input type="text" required id="small_desc" name="small_desc"
+                       placeholder="Enter small description of animal">
+            </div>
+            <div class="form-group">
+                <label for="description">Animal's description:</label>
+                <textarea id="description" name="description" rows="3" placeholder="Input some more info about animal"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="gender">Animal's gender:</label>
+                <select class="form-control" id="gender" name="gender" required>
+                    <option>None</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="breed">Breed:</label>
+                <input type="text" id="breed" name="breed"
+                       placeholder="Enter breed of animal">
+            </div>
+            <div class="form-group">
+                <label for="where_to_get">Animal's location:</label>
+                <textarea id="where_to_get" name="where_to_get" rows="2" placeholder="Input some more info about animal"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="avatar">Animal's main photo (required):</label>
+                <input class="form-control-file border" type="file" id="avatar" name="avatar" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label for="photos">Some more animal's photos:</label>
+                <input type="file" class="form-control-file border" multiple id="photos" name="photos" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Send for moderation!</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'allauth',
     'accounts',
     'animal_desc',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -124,8 +125,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'front-end/static/')
+# STATIC_ROOT is directory where static files are stores during PRODUCTION stage. collectstatic command puts static
+# files here
+STATIC_ROOT = os.path.join(BASE_DIR, 'front-end/staticfiles/')
 STATIC_URL = '/static/'
+# STATICFILES_DIRS is responsible for static files you use during DEVELOPMENT stage
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'front-end/static/')
+]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'front-end/media/')
 MEDIA_URL = 'media/'
