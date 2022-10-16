@@ -29,7 +29,6 @@ class UserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
@@ -48,13 +47,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-    def username_get(self):
-        return self.username
+    @property
+    def get_profile_username(self):
+        profile = UserProfile.objects.get(user=self)
+        return profile.username
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    avatar = models.ImageField(blank=True, null=True)
+    username = models.CharField(max_length=50, unique=True, null=True, default=None)
+    avatar = models.ImageField(blank=True, null=True, upload_to='users/avatars/')
     biography = models.TextField(blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
 

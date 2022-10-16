@@ -1,9 +1,9 @@
 from django import forms
-from models import CustomUser
+from models import CustomUser, UserProfile
+from .validators import check_photo_file_extension
 
 
 class UserRegistrationForm(forms.ModelForm):
-    username = forms.CharField(label="Enter username", widget=forms.TextInput)
     first_name = forms.CharField(label="Enter first name", widget=forms.TextInput)
     last_name = forms.CharField(label="Enter last name", widget=forms.TextInput)
     email = forms.EmailField(label="Enter your email", widget=forms.EmailInput)
@@ -13,7 +13,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'phone_number', 'password')
+        fields = ('first_name', 'last_name', 'email', 'phone_number', 'password')
 
     def clean_password(self):
         data = self.cleaned_data
@@ -26,4 +26,17 @@ class UserRegistrationForm(forms.ModelForm):
         if str(data['phone_number'])[1:2] not in ('25', '29', '33', '17') or len(str(data['phone_number'])) != 9:
             raise forms.ValidationError("Your number is not a correct Belarusian phone number")
         return data['phone_number']
+
+
+class ProfileForm(forms.ModelForm):
+    username = forms.CharField(label="Enter username", widget=forms.TextInput)
+    avatar = forms.ImageField(label="Upload your photo", widget=forms.ClearableFileInput,
+                              validators=[check_photo_file_extension])
+    biography = forms.CharField(label="Enter something about you", widget=forms.Textarea)
+    date_of_birth = forms.DateField(label="Enter your date of birth", widget=forms.DateInput)
+
+    class Meta:
+        model = UserProfile
+        fields = ('username', 'avatar', 'biography', 'date_of_birth')
+
 

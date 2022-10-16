@@ -34,7 +34,7 @@ class Animal(models.Model):
     name = models.CharField(max_length=50)
     avatar = models.ImageField(blank=True, null=True, upload_to=f'animals/')
     age = models.SmallIntegerField(blank=True, null=True)
-    slug = models.SlugField(unique=True, null=True, blank=True, default="")
+    slug = models.SlugField(null=True, blank=True, default="")
     create_date = models.DateField(default=timezone.now)
     is_active = models.BooleanField(default=False)
 
@@ -55,6 +55,10 @@ class Animal(models.Model):
         else:
             return os.path.join(settings.STATIC_URL, "static/animals/img.png")
 
+    def get_profile(self):
+        profile = AnimalProfile.objects.get(animal=self)
+        return profile
+
 
 class AnimalProfile(models.Model):
     GENDERS = {
@@ -67,6 +71,18 @@ class AnimalProfile(models.Model):
     description = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=100, blank=True, null=True, choices=GENDERS, default='None')
     breed = models.CharField(max_length=255, blank=True, null=True, default='Undefined')
+    where_to_get = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.animal.name}'s profile"
+
+
+class AnimalPhoto(models.Model):
+    animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to=f'animals/')
+
+    def __str__(self):
+        return f"{self.animal.slug}-{self.animal.id} photo"
+
+    def get_image_url(self):
+        return self.photo.url

@@ -1,22 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container-fluid d-flex justify-content-center">
+  <h1 style="">Animals we got</h1>
+</div>
 
-<div class="container">
+<div class="container-fluid d-flex justify-content-center">
 <div class="row">
 
 {% for animal in animals %}
-<div class="col-md-4">
+<div class="col">
 <div class="card" style="width: 18rem;">
+  <div class="container-fluid d-flex justify-content center align-items-center">
   <img class="card-img-top" src="{{animal.get_avatar_url}}" style="height: 225px; width: 225px" alt="{{animal.name}} the {{animal.type}}">
-  <div class="card-body">
+  </div>
+  <div class="card-body d-flex justify-content-center">
     <h5 class="card-title">{{animal.name}}</h5>
     <p class="card-text"></p>
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">{{animal.type}}</li>
-    <li class="list-group-item">{{animal.age}}</li>
-    <li class="list-group-item">{{animal.profile.small_desc}}</li>
+    <li class="list-group-item">{{animal.age}} y.o</li>
+    <li class="list-group-item">{{animal.get_profile.small_desc}}</li>
   </ul>
   <div class="card-body">
     <a href="{{animal.get_absolute_url}}" class="card-link">See</a>
