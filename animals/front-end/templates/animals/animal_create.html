@@ -16,11 +16,11 @@
    </div>
 {% endif %}
 
-<div class="container-fluid d-flex justify-content-center">
-    <div class="card">
+<div class="container-fluid d-flex justify-content-center" style="margin-top: 50px; margin-bottom: 100px">
+    <div class="card bg-gradient bg-info">
         <form method="POST" action="{% url 'animals:create' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">
+            <div class="form-group pb-4" style="font-size: x-large; margin-left: 10px">
                 <label for="type">Animal type:</label>
                 <select class="form-control" id="type" name="type" required>
                     {% for type in types %}
@@ -28,24 +28,26 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group">
-                <label for="name">Animal's name:</label>
-                <input type="text" id="name" name="name" placeholder="Enter animals's name" required>
+            <div class="form-group pb-4" style="font-size: x-large; margin-left: 10px">
+                <label for="name">Animal's name:</label><br>
+                <span><input type="text" id="name" name="name" placeholder="Enter animals's name" required></span>
             </div>
-            <div class="form-group">
-                <label for="age">Animal's age:</label>
-                <input type="number" id="age" name="age" min="0">
+            <div class="form-group pb-4" style="font-size: x-large; margin-left: 10px">
+                <label for="age">Animal's age:</label><br>
+                <span><input type="number" id="age" name="age" min="0"></span>
             </div>
-            <div class="form-group">
-                <label for="small_desc">Small description:</label>
-                <input type="text" required id="small_desc" name="small_desc"
-                       placeholder="Enter small description of animal">
+            <div class="form-group pb-4" style="font-size: x-large; margin-left: 10px">
+                <label for="small_desc">Small description:</label><br>
+                <span><input type="text" required id="small_desc" name="small_desc"
+                       placeholder="Enter small description of animal"></span>
             </div>
-            <div class="form-group">
-                <label for="description">Animal's description:</label>
-                <textarea id="description" name="description" rows="3" placeholder="Input some more info about animal"></textarea>
+            <div class="form-group pb-4" style="font-size: x-large; margin-left: 10px">
+                <label for="description">Animal's description:</label><br>
+                <span>
+                    <textarea id="description" name="description" rows="3" placeholder="Input some more info about animal"></textarea>
+                </span>
             </div>
-            <div class="form-group">
+            <div class="form-group pb-4" style="font-size: x-large; margin-left: 10px">
                 <label for="gender">Animal's gender:</label>
                 <select class="form-control" id="gender" name="gender" required>
                     <option>None</option>
@@ -53,24 +55,34 @@
                     <option>Female</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="breed">Breed:</label>
-                <input type="text" id="breed" name="breed"
+            <div class="form-group pb-4" style="font-size: x-large; margin-left: 10px">
+                <label for="breed">Breed:</label><br>
+                <span>
+                    <input type="text" id="breed" name="breed"
                        placeholder="Enter breed of animal">
+                </span>
             </div>
-            <div class="form-group">
-                <label for="where_to_get">Animal's location:</label>
-                <textarea id="where_to_get" name="where_to_get" rows="2" placeholder="Input some more info about animal"></textarea>
+            <div class="form-group pb-4" style="font-size: x-large; margin-left: 10px">
+                <label for="where_to_get">Animal's location:</label><br>
+                <span>
+                    <textarea id="where_to_get" name="where_to_get" rows="2" placeholder="Input some more info about animal"></textarea>
+                </span>
             </div>
-            <div class="form-group">
-                <label for="avatar">Animal's main photo (required):</label>
-                <input class="form-control-file border" type="file" id="avatar" name="avatar" accept="image/*" required>
+            <div class="form-group pb-4" style="font-size: x-large; margin-left: 10px">
+                <label for="avatar">Animal's main photo (required):</label><br>
+                <span>
+                    <input class="form-control-file border" type="file" id="avatar" name="avatar" accept="image/*" required>
+                </span>
             </div>
-            <div class="form-group">
-                <label for="photos">Some more animal's photos:</label>
-                <input type="file" class="form-control-file border" multiple id="photos" name="photos" accept="image/*">
+            <div class="form-group pb-4" style="font-size: x-large; margin-left: 10px">
+                <label for="photos">Some more animal's photos:</label><br>
+                <span>
+                    <input type="file" class="form-control-file border" multiple id="photos" name="photos" accept="image/*">
+                </span>
             </div>
-            <button type="submit" class="btn btn-outline-primary">Send for moderation!</button>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-primary btn-lg">Send for moderation!</button>
+            </div>
         </form>
     </div>
 </div>

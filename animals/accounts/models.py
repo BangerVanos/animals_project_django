@@ -52,6 +52,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         profile = UserProfile.objects.get(user=self)
         return profile.username
 
+    def get_profile(self):
+        profile = UserProfile.objects.get(user=self)
+        return profile
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
