@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% if user_form.errors %}
+   <div class="alert alert-danger alert-dismissible">
+     <button type="button" class="close" data-dismiss="alert">×</button>
+     <strong>Error!</strong> {{ user_form.errors }}.
+   </div>
+{% endif %}
+
+{% if profile_form.errors %}
+   <div class="alert alert-danger alert-dismissible">
+     <button type="button" class="close" data-dismiss="alert">×</button>
+     <strong>Error!</strong> {{ profile_form.errors }}.
+   </div>
+{% endif %}
+
+<div class="container-fluid d-flex justify-content-center" style="margin-top: 50px; margin-bottom: 30px">
+    <div class="card bg-gradient bg-info">
+        <form method="post" enctype="multipart/form-data" action="{% url 'accounts:profile_change' %}">
+            {% csrf_token %}
+            <div style="font-size: x-large; margin-left: 10px">
+                <div class="form-group pb-4">
+                    <label for="first_name">Change first name</label><br>
+                    <input type="text" id="first_name" name="first_name" placeholder="Change first name">
+                </div>
+                <div class="form-group pb-4">
+                    <label for="last_name">Change last name</label><br>
+                    <input type="text" id="last_name" name="last_name" placeholder="Change last name">
+                </div>
+                <div class="form-group pb-4">
+                    <label for="phone_number">Change phone number name</label><br>
+                    <input type="number" id="phone_number" name="phone_number" placeholder="Change phone number">
+                </div>
+                <div class="form-group pb-4">
+                    <label for="username">Change username</label><br>
+                    <input type="text" id="username" name="username" placeholder="Change username">
+                </div>
+                <div class="form-group pb-4">
+                    <label for="biography">Change biography</label><br>
+                    <textarea id="biography" name="biography" placeholder="Change biography" rows="3"></textarea>
+                </div>
+                <div class="form-group pb-4">
+                    <label for="date_of_birth">Change date of birth</label><br>
+                    <input type="date" id="date_of_birth" name="date_of_birth" placeholder="01-01-1970">
+                </div>
+                <div class="form-group pb-4">
+                    <label for="avatar">Change avatar</label><br>
+                    <input type="file" id="avatar" name="avatar" accept="image/*">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-primary btn-lg">Change account info</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

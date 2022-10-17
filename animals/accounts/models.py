@@ -1,13 +1,15 @@
+import os
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, AbstractUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils import timezone
+from django.conf import settings
 
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def create_user(self, email, password, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError("Email must be set")
         email = self.normalize_email(email)
@@ -16,7 +18,7 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
@@ -32,8 +34,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
-    phone_number = models.PositiveIntegerField(null=True, blank=True)
-    password = models.TextField()
+    phone_number = models.PositiveIntegerField(null=True, blank=True, default=None)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
@@ -56,14 +57,25 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         profile = UserProfile.objects.get(user=self)
         return profile
 
+    @property
+    def get_phone_number_as_text(self):
+        return '+375 ({}{}) {}{}{}-{}{}-{}{}'.format(*str(self.phone_number))
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    username = models.CharField(max_length=50, unique=True, null=True, default=None)
+    username = models.CharField(max_length=50, unique=True, blank=True, null=True)
     avatar = models.ImageField(blank=True, null=True, upload_to='users/avatars/')
     biography = models.TextField(blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.user}'s profile"
+
+    @property
+    def get_avatar_url(self):
+        if hasattr(self.avatar, 'url'):
+            return self.avatar.url
+        else:
+            return os.path.join(settings.STATIC_URL, 'accounts/no_avatar.png/')
 

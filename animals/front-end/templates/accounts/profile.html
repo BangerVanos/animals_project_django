@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid d-flex justify-content-center"; style="margin-top: 5%; margin-bottom: 15%">
+    <div class="card bg-gradient bg-light" style="width:512px">
+        <img class="card-img-top" src="{{profile.get_avatar_url}}" alt="Card image" style="width:100%; object-fit: cover">
+        <div class="card-body">
+          <h4 class="card-title" style="text-align: center">{{profile.username}}</h4>
+          <p class="card-text">{{request.user.first_name}} {{request.user.last_name}}</p>
+          <p class="card-text">{{request.user.get_phone_number_as_test}}</p>
+          <p class="card-text">{{profile.biography}}</p>
+          <p class="card-text">{{profile.date_of_birth}}</p>
+          <a href="{% url 'accounts:profile_change' %}" class="btn btn-primary btn-lg">Change Profile</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
